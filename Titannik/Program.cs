@@ -31,6 +31,7 @@
         }
 
         Console.WriteLine("What is your name?");
+        Console.WriteLine("Tony");
     }
 
     /// <summary>
