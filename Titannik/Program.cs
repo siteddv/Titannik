@@ -32,6 +32,7 @@
 
         Console.WriteLine("What is your name?");
         Console.WriteLine("Tony");
+        Console.WriteLine("I love you Tony");
     }
 
     /// <summary>
