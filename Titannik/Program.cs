@@ -29,6 +29,8 @@
             ReviewAnswer(expectedResult);
             Console.WriteLine(spliter);
         }
+
+        Console.WriteLine("What is your name?");
     }
 
     /// <summary>
