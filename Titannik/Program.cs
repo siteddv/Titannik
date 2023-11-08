@@ -29,6 +29,8 @@
             ReviewAnswer(expectedResult);
             Console.WriteLine(spliter);
         }
+
+        Console.WriteLine("Go to fields, niggas!");
     }
 
     /// <summary>
