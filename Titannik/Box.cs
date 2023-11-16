@@ -18,7 +18,6 @@
         public double Height { get; set; }
         public double Length { get; set; }
 
-        private int _age1;
         public void SetDefaultValues()
         {
             Width = 100;
@@ -26,11 +25,33 @@
             Length = 130;
         }
 
-        public void PrintBoxSizes()
+        public void SetDefaultValues(bool isEven)
         {
+            Width = isEven ? 100 : 101;
+            Height = isEven ? 110 : 111;
+            Length = isEven ? 130: 131;
+        }
+
+        public void SetDefaultValues(int countOfPartsToDivide)
+        {
+            Random rnd = new Random();
+            int multiplyier = new Random().Next(20);
+
+            Width = Height = Length = multiplyier * countOfPartsToDivide;
+        }
+
+        public void PrintBoxSizes ()
+        {
+            if (Width == 5)
+            {
+                Console.WriteLine("fsdfs");
+            }
+
             Console.WriteLine("Width: " + Width);
             Console.WriteLine("Height: " + Height);
             Console.WriteLine("Length: " + Length);
         }
+
+
     }
 }
