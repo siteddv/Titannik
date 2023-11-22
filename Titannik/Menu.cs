@@ -1,7 +1,12 @@
+using Titannik.Helpers;
+
 namespace Titannik;
 
 public class Menu
 {
+    private const int ShowBalanceOperationId = 1;
+    private const int TopUpBalanceOperationId = 2;
+    private int[] availableOperationIds = new[] { ShowBalanceOperationId, TopUpBalanceOperationId };
     public void ShowGreetings()
     {
         Console.WriteLine("**********************");
@@ -18,30 +23,49 @@ public class Menu
         Console.WriteLine("Please enter your login and password");
         string? login, password;
 
-        Console.Write("Login: ");
-        login = Console.ReadLine();
-        
-        Console.Write("Password: ");
-        password = Console.ReadLine();
+        login = InputHelper.ReadString("Login");
+        password = InputHelper.ReadString("Password: ");
 
-        if (string.IsNullOrEmpty(login)
-            || string.IsNullOrEmpty(password))
+        bool isSignInSuccess = Session.SignIn(login, password);
+        if (isSignInSuccess)
         {
-            Console.WriteLine("Please fill in the credentials!");
-            AuthenticateUser();
             return;
         }
-        
-        bool IsSignInSuccess = Session.SignIn(login, password);
-        if (IsSignInSuccess)
+
+        Console.WriteLine("login unsuccessful, please try again");
+        AuthenticateUser();
+    }
+
+    public void ShowMenu()
+    {
+        Console.WriteLine("Welcome to mobile bank!");
+        Console.WriteLine($"{ShowBalanceOperationId} - Show your balance");
+        Console.WriteLine($"{TopUpBalanceOperationId} - Top up your balance");
+        Console.WriteLine();
+        int operationId = InputHelper.ReadNumber("Please choose necessary option");
+
+        ProcessOperation(operationId);
+    }
+
+    private void ProcessOperation(int operationId)
+    {
+        switch (operationId)
         {
-            Console.WriteLine("Welcome to mobile banking");
+            case ShowBalanceOperationId:
+                break;
+            case TopUpBalanceOperationId:
+                break;
+            default:
+                ProcessIncorrectOperationId();
+                break;
         }
-        else
-        {
-            Console.WriteLine("login unsuccessful, please try again");
-            AuthenticateUser();
-        }
+    }
+
+    private void ProcessIncorrectOperationId()
+    {
+        string availableOperations = string.Join(", ", availableOperationIds);
+        Console.WriteLine($"Please enter available operations from range: {availableOperations}");
         
+        ShowMenu();
     }
 }
