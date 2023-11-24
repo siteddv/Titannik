@@ -6,7 +6,7 @@ public class Menu
 {
     private const int ShowBalanceOperationId = 1;
     private const int TopUpBalanceOperationId = 2;
-    private int[] availableOperationIds = new[] { ShowBalanceOperationId, TopUpBalanceOperationId };
+    private int[] availableOperationIds = { ShowBalanceOperationId, TopUpBalanceOperationId };
     public void ShowGreetings()
     {
         Console.WriteLine("**********************");
@@ -52,6 +52,7 @@ public class Menu
         switch (operationId)
         {
             case ShowBalanceOperationId:
+                ShowBalance();
                 break;
             case TopUpBalanceOperationId:
                 break;
@@ -59,6 +60,17 @@ public class Menu
                 ProcessIncorrectOperationId();
                 break;
         }
+    }
+
+    private void ShowBalance()
+    {
+        Console.Clear();
+        Console.WriteLine($"Your current balance is: {DefaultCredentials.DefaultDebitCard.CurrentBalance} rubles");
+        Console.WriteLine();
+        Console.WriteLine("Please enter any key to return to main menu");
+        Console.ReadKey();
+        Console.Clear();
+        ShowMenu();
     }
 
     private void ProcessIncorrectOperationId()
