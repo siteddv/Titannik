@@ -1,3 +1,4 @@
+using Titannik.Enums;
 using Titannik.Helpers;
 
 namespace Titannik;
@@ -6,7 +7,8 @@ public class Menu
 {
     private const int ShowBalanceOperationId = 1;
     private const int TopUpBalanceOperationId = 2;
-    private int[] availableOperationIds = { ShowBalanceOperationId, TopUpBalanceOperationId };
+    private const int WithdrawFromBalanceOperationId = 3;
+    private int[] availableOperationIds = { ShowBalanceOperationId, TopUpBalanceOperationId, WithdrawFromBalanceOperationId };
     public void ShowGreetings()
     {
         Console.WriteLine("**********************");
@@ -41,6 +43,7 @@ public class Menu
         Console.WriteLine("Welcome to mobile bank!");
         Console.WriteLine($"{ShowBalanceOperationId} - Show your balance");
         Console.WriteLine($"{TopUpBalanceOperationId} - Top up your balance");
+        Console.WriteLine($"{WithdrawFromBalanceOperationId} - Withdraw money");
         Console.WriteLine();
         int operationId = InputHelper.ReadNumber("Please choose necessary option");
 
@@ -55,6 +58,10 @@ public class Menu
                 ShowBalance();
                 break;
             case TopUpBalanceOperationId:
+                ChangeBalance(CardOperation.TopUp);
+                break;
+            case WithdrawFromBalanceOperationId:
+                ChangeBalance(CardOperation.Withdraw);
                 break;
             default:
                 ProcessIncorrectOperationId();
@@ -62,10 +69,45 @@ public class Menu
         }
     }
 
+    private void ChangeBalance(CardOperation operation)
+    {
+        decimal sumToChange = InputHelper.ReadDecimal($"Please enter sum to {operation}", false);
+        
+        switch (operation)
+        {
+            case CardOperation.Withdraw:
+                if (sumToChange > DefaultCredentials.DefaultDebitCard.CurrentBalance)
+                {
+                    Console.WriteLine("It's impossible to withdraw such sum of money");
+                    ReturnToMenu();
+                    return;
+                }
+                sumToChange *= -1;
+                break;
+            case CardOperation.TopUp:
+                break;
+        }
+        
+        Console.Clear();
+        
+        DefaultCredentials.DefaultDebitCard.CurrentBalance += sumToChange;
+        
+        ReturnToMenu();
+    }
+
     private void ShowBalance()
     {
         Console.Clear();
-        Console.WriteLine($"Your current balance is: {DefaultCredentials.DefaultDebitCard.CurrentBalance} rubles");
+        
+        decimal currentBalance = DefaultCredentials.DefaultDebitCard.CurrentBalance;
+        Currency currency = DefaultCredentials.DefaultDebitCard.Currency;
+        Console.WriteLine($"Your current balance is: {currentBalance} {currency}");
+        
+        ReturnToMenu();
+    }
+
+    private void ReturnToMenu()
+    {
         Console.WriteLine();
         Console.WriteLine("Please enter any key to return to main menu");
         Console.ReadKey();

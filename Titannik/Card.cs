@@ -1,3 +1,5 @@
+using Titannik.Enums;
+
 namespace Titannik;
 
 public abstract class Card
@@ -10,7 +12,7 @@ public abstract class Card
         }
         set
         {
-            if (value < 1000000000000000 || value >= 10000000000000000)
+            if (value is < 1000000000000000 or >= 10000000000000000)
             {
                 throw new NotSupportedException($"{nameof(CardNumber)} doesn't support incorrect number {value}");
             }
@@ -24,6 +26,7 @@ public abstract class Card
     public DateTime ExpiryDate { get; set; }
     public string? OwnerName { get; set; }
     public string? BankName { get; set; }
-    public string? PaymentType { get; set; }
+    public PaymentType PaymentType { get; set; }
     public decimal CurrentBalance { get; set; }
+    public Currency Currency { get; set; }
 }

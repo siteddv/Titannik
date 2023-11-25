@@ -1,3 +1,5 @@
+using Titannik.Enums;
+
 namespace Titannik;
 
 public static class DefaultCredentials
@@ -8,11 +10,12 @@ public static class DefaultCredentials
     public static DebitCard DefaultDebitCard = new DebitCard()
     {
         BankName = "Optima",
-        CardNumber = 32 /*1234567890123456*/,
+        CardNumber = 1234567890123456,
         CurrentBalance = 322,
         ExpiryDate = new DateTime(2027, 11, 1),
         OwnerName = "Ivan Ivanov",
-        PaymentType = "Visa"
+        PaymentType = PaymentType.Visa,
+        Currency = Currency.KGS
     };
     
     

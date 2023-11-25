@@ -15,15 +15,27 @@ public static class InputHelper
         return ReadString(inputMessage);
     }
 
-    public static int ReadNumber(string input)
+    public static int ReadNumber(string inputMessage)
     {
-        string value = ReadString(input);
+        string value = ReadString(inputMessage);
         if (int.TryParse(value, out int number))
         {
             return number;
         }
         
         Console.WriteLine("Input number using digits");
-        return ReadNumber(input);
+        return ReadNumber(inputMessage);
+    }
+    
+    public static decimal ReadDecimal(string inputMessage, bool allowNegativeValues = true)
+    {
+        string value = ReadString(inputMessage);
+        if (decimal.TryParse(value, out decimal number) && (allowNegativeValues || number > 0))
+        {
+            return number;
+        }
+        
+        Console.WriteLine("Input number using digits");
+        return ReadDecimal(inputMessage);
     }
 }
