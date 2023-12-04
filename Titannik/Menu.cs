@@ -31,6 +31,21 @@ public class Menu
         bool isSignInSuccess = Session.SignIn(login, password);
         if (isSignInSuccess)
         {
+            Console.WriteLine("Please choose card for operations:");
+            Console.WriteLine("1 - Debit card");
+            Console.WriteLine("2 - Credit card");
+
+            int choice = InputHelper.ReadNumber("Please choose necessary option");
+
+            switch (choice)
+            {
+                case 1:
+                    DefaultCredentials.DefaultCard = DefaultCredentials.DefaultDebitCard;
+                    break;
+                case 2:
+                    DefaultCredentials.DefaultCard = DefaultCredentials.DefaultCreditCard;
+                    break;
+            }
             return;
         }
 
@@ -76,22 +91,17 @@ public class Menu
         switch (operation)
         {
             case CardOperation.Withdraw:
-                if (sumToChange > DefaultCredentials.DefaultDebitCard.CurrentBalance)
+                bool? isSuccess = DefaultCredentials.DefaultCard?.Withdraw(sumToChange);
+                if (isSuccess == false)
                 {
-                    Console.WriteLine("It's impossible to withdraw such sum of money");
-                    ReturnToMenu();
-                    return;
+                    Console.WriteLine("Something went wrong");
                 }
-                sumToChange *= -1;
                 break;
             case CardOperation.TopUp:
                 break;
         }
         
         Console.Clear();
-        
-        DefaultCredentials.DefaultDebitCard.CurrentBalance += sumToChange;
-        
         ReturnToMenu();
     }
 
@@ -99,10 +109,13 @@ public class Menu
     {
         Console.Clear();
         
-        decimal currentBalance = DefaultCredentials.DefaultDebitCard.CurrentBalance;
-        Currency currency = DefaultCredentials.DefaultDebitCard.Currency;
+        decimal? currentBalance = DefaultCredentials.DefaultCard?.CurrentBalance;
+        Currency? currency = DefaultCredentials.DefaultCard?.Currency;
         Console.WriteLine($"Your current balance is: {currentBalance} {currency}");
-        
+        if (DefaultCredentials.DefaultCard is CreditCard cc)
+        {
+            Console.WriteLine($"Your dept is {cc.Dept} {cc.Currency}");
+        }
         ReturnToMenu();
     }
 

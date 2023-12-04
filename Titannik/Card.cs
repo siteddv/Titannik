@@ -29,4 +29,14 @@ public abstract class Card
     public PaymentType PaymentType { get; set; }
     public decimal CurrentBalance { get; set; }
     public Currency Currency { get; set; }
+
+    public virtual bool Withdraw(decimal sumToChange)
+    {
+        return false;
+    }
+
+    public virtual void ShowBalance()
+    {
+        
+    }
 }

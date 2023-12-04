@@ -18,5 +18,16 @@ public static class DefaultCredentials
         Currency = Currency.KGS
     };
     
+    public static CreditCard DefaultCreditCard = new CreditCard()
+    {
+        BankName = "Optima",
+        CardNumber = 1234567890123457,
+        CurrentBalance = 322,
+        ExpiryDate = new DateTime(2027, 11, 1),
+        OwnerName = "Ivan Ivanov",
+        PaymentType = PaymentType.Visa,
+        Currency = Currency.KGS
+    };
     
+    public static Card? DefaultCard { get; set; }
 }
