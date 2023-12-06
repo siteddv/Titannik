@@ -32,11 +32,16 @@ public abstract class Card
 
     public virtual bool Withdraw(decimal sumToChange)
     {
-        return false;
+        return default;
     }
 
-    public virtual void ShowBalance()
+    public virtual bool TopUp(decimal sumToChange)
     {
-        
+        return default;
+    }
+
+    public virtual string? GetBalance()
+    {
+        return default;
     }
 }

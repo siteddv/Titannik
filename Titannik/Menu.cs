@@ -87,17 +87,24 @@ public class Menu
     private void ChangeBalance(CardOperation operation)
     {
         decimal sumToChange = InputHelper.ReadDecimal($"Please enter sum to {operation}", false);
+
+        bool? isSuccess = false;
         
         switch (operation)
         {
             case CardOperation.Withdraw:
-                bool? isSuccess = DefaultCredentials.DefaultCard?.Withdraw(sumToChange);
+                isSuccess = DefaultCredentials.DefaultCard?.Withdraw(sumToChange);
                 if (isSuccess == false)
                 {
                     Console.WriteLine("Something went wrong");
                 }
                 break;
             case CardOperation.TopUp:
+                isSuccess = DefaultCredentials.DefaultCard?.TopUp(sumToChange);
+                if (isSuccess == false)
+                {
+                    Console.WriteLine("Something went wrong");
+                }
                 break;
         }
         
@@ -108,14 +115,9 @@ public class Menu
     private void ShowBalance()
     {
         Console.Clear();
-        
-        decimal? currentBalance = DefaultCredentials.DefaultCard?.CurrentBalance;
-        Currency? currency = DefaultCredentials.DefaultCard?.Currency;
-        Console.WriteLine($"Your current balance is: {currentBalance} {currency}");
-        if (DefaultCredentials.DefaultCard is CreditCard cc)
-        {
-            Console.WriteLine($"Your dept is {cc.Dept} {cc.Currency}");
-        }
+
+        string? balance = DefaultCredentials.DefaultCard?.GetBalance();
+        Console.WriteLine($"Your current balance is: {balance}");
         ReturnToMenu();
     }
 

@@ -23,4 +23,25 @@ public class CreditCard : Card
         CurrentBalance -= sumToChange;
         return true;
     }
+
+    public override string? GetBalance()
+    {
+        return $"{CurrentBalance} {Currency}\n" +
+               $"Dept: {Dept} {Currency}";
+    }
+
+    public override bool TopUp(decimal sumToChange)
+    {
+        if (sumToChange > Dept)
+        {
+            CurrentBalance = sumToChange - Dept;
+            Dept = 0;
+        }
+        else
+        {
+            Dept -= sumToChange;
+        }
+
+        return true;
+    }
 }
