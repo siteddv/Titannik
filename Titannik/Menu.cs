@@ -34,7 +34,7 @@ public class Menu
             Console.WriteLine("Please choose card for operations:");
             Console.WriteLine("1 - Debit card");
             Console.WriteLine("2 - Credit card");
-
+            
             int choice = InputHelper.ReadNumber("Please choose necessary option");
 
             switch (choice)
